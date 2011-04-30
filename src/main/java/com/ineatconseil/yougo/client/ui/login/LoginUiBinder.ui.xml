@@ -1,0 +1,37 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui"
+	xmlns:yougo="urn:import:com.ineatconseil.yougo.client.ui.common.component">
+	<g:HTMLPanel>
+		<g:Label addStyleNames="title" ui:field="titleLabel" />
+		<g:HTMLPanel styleName="panel">
+			<g:DecoratorPanel addStyleNames="loginArea">
+				<g:HTMLPanel>
+					<table cellpadding="10" cellspacing="40" class="loginContent">
+						<tr>
+							<td>
+								<g:InlineLabel ui:field="loginLabel" />
+							</td>
+							<td>
+								<g:TextBox ui:field="loginText" />
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<g:InlineLabel ui:field="passwordLabel" />
+							</td>
+							<td>
+								<g:PasswordTextBox ui:field="passwordText" />
+							</td>
+						</tr>
+						<tr>
+							<td colspan="2">
+								<yougo:CustomButton ui:field="loginBt" />
+							</td>
+						</tr>
+					</table>
+				</g:HTMLPanel>
+			</g:DecoratorPanel>
+		</g:HTMLPanel>
+	</g:HTMLPanel>
+</ui:UiBinder> 

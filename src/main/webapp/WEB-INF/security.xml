@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:jee="http://www.springframework.org/schema/jee"
+    xmlns:security="http://www.springframework.org/schema/security"
+    xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+		http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-3.0.xsd
+		http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.0.xsd">
+	
+
+	<!-- Access can be ROLE_xxx IS_AUTHENTICATED_ANONYMOUSLY IS_AUTHENTICATED_FULLY -->
+
+	<security:http entry-point-ref="casEntryPoint"> 
+	    <security:intercept-url pattern="/**" access="ROLE_COLISAGE" />
+		<security:anonymous />
+		<security:custom-filter position="FORM_LOGIN_FILTER" ref="casFilter" />
+		<security:logout logout-url="/logout" logout-success-url="/" />
+	</security:http>
+	
+</beans>

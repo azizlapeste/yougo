@@ -1,0 +1,22 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:y="urn:com.ineatconseil.yougo.client.ui.common.utils">
+	<g:HTMLPanel>
+		<g:Label addStyleNames="title" ui:field="planningTitleLabel" />
+		<table cellspacing='0' cellpadding='0' class="panel">
+			<tr>
+				<td class="subTitle">
+					<g:InlineLabel ui:field="helloLabel" />
+					<g:Anchor ui:field="changePasswordLink" />
+					<g:Anchor ui:field="disconnectLink" />
+				</td>
+			</tr>
+			<tr>
+				<td valign='top'>
+					<g:DecoratedTabPanel ui:field='planningTabPanel'
+						animationEnabled='true' />
+				</td>
+			</tr>
+		</table>
+	</g:HTMLPanel>
+</ui:UiBinder>

@@ -1,0 +1,19 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:t="urn:import:com.google.gwt.user.cellview.client"
+	xmlns:y="urn:com.ineatconseil.yougo.client.ui.common.utils">
+	<g:HTMLPanel>
+		<table cellspacing='0' cellpadding='0'>
+			<tr>
+				<td valign='top'>
+					<t:CellTable ui:field='requestsManagementTable' />
+				</td>
+			</tr>
+			<tr>
+				<td align='center'>
+					<t:SimplePager ui:field='requestsManagementPager' />
+				</td>
+			</tr>
+		</table>
+	</g:HTMLPanel>
+</ui:UiBinder>
