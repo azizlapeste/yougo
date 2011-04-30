@@ -15,23 +15,27 @@ public class UserCTO extends AbstractCTO {
 	}
 
 	public final native int getId() /*-{
-		return this.id;
-	}-*/;
+									return this.id;
+									}-*/;
 
 	public final native String getFullName() /*-{
-		return this.fullName;
-	}-*/;
+												return this.fullName;
+												}-*/;
 
 	public final native String getEmail() /*-{
-		return this.email;
-	}-*/;
+											return this.email;
+											}-*/;
 
 	public final native boolean isAdmin() /*-{
-		return this.admin;
-	}-*/;
+											return this.admin;
+											}-*/;
 
 	public final native boolean isActive() /*-{
-		return this.active;
-	}-*/;
+											return this.active;
+											}-*/;
+
+	public final native void setId(final int id) /*-{
+													return this.id = id;
+													}-*/;
 
 }

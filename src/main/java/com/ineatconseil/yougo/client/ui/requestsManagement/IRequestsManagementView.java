@@ -16,7 +16,9 @@ public interface IRequestsManagementView extends IsWidget {
 
 	void initTable(int pageSize, JsArray<RequestCTO> requests);
 
-	void addColumnOnTable(Column<RequestCTO, String> column, String title);
+	void addColumnOnTable(Column<RequestCTO, ?> column, String title);
+
+	void addColumnOnTable(Column<RequestCTO, ?> column, String title, String columnWidth);
 
 	void setPresenter(Presenter presenter);
 

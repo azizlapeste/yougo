@@ -73,9 +73,17 @@ public class RequestsManagementViewImpl extends Composite implements IRequestsMa
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void addColumnOnTable(Column<RequestCTO, String> column, String title) {
+	public void addColumnOnTable(final Column<RequestCTO, ?> column, final String title) {
+		addColumnOnTable(column, title, DEFAULT_COLUMN_WIDTH);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void addColumnOnTable(final Column<RequestCTO, ?> column, final String title, final String columnWidth) {
 		requestsManagementTable.addColumn(column, title);
-		requestsManagementTable.setColumnWidth(column, DEFAULT_COLUMN_WIDTH);
+		requestsManagementTable.setColumnWidth(column, columnWidth);
 	}
 
 	/**

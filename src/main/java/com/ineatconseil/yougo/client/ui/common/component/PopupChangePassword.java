@@ -9,6 +9,7 @@ import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.PasswordTextBox;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.ineatconseil.yougo.client.ui.common.callback.PopupCallback;
 
 /**
  * @author aelamrani
@@ -30,8 +31,10 @@ public class PopupChangePassword extends AbstractDialogBox {
 	 * @param title
 	 */
 	public PopupChangePassword(final String oldPasswordMessage, final String newPasswordMessage,
-			final String confirmNewPasswordMessage, final String title) {
-		super(Level.WARNING, constructContent(oldPasswordMessage, newPasswordMessage, confirmNewPasswordMessage), title);
+			final String confirmNewPasswordMessage, final String title, final PopupCallback callback) {
+		super(Level.CONFIRM, constructContent(oldPasswordMessage, newPasswordMessage, confirmNewPasswordMessage), title);
+		setPopupCallback(callback);
+		addCancelButton();
 	}
 
 	/**

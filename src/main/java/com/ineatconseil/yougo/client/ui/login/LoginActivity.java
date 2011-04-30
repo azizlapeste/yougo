@@ -79,7 +79,7 @@ public class LoginActivity extends AbstractActivity implements ILoginView.Presen
 	}
 
 	private void connect() {
-		userClientService.connect(new AsyncCallback<JsArrayString>() {
+		userClientService.connect("1", new AsyncCallback<JsArrayString>() {
 
 			@Override
 			public void onFailure(Throwable caught) {
@@ -104,7 +104,7 @@ public class LoginActivity extends AbstractActivity implements ILoginView.Presen
 							|| (loginView.getLogin().equals("toto") && loginView.getPassword().equals("toto"))) {
 						BasicPopup.show(Level.CONFIRM, "Bienvenue " + result.get(i).getFullName(),
 								"Vous êtes maintenant connecté sur YouGO", true);
-						goTo(new PlanningPlace(String.valueOf(result.get(i).getId())));
+						goTo(new PlanningPlace(result.get(i)));
 						bNotFound = false;
 						break;
 					}

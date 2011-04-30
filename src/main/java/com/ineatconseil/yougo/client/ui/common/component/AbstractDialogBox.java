@@ -17,6 +17,7 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.ineatconseil.yougo.client.i18n.YougoLabelConstants;
+import com.ineatconseil.yougo.client.ui.common.callback.PopupCallback;
 import com.ineatconseil.yougo.client.ui.common.utils.FocusManager;
 import com.ineatconseil.yougo.client.ui.common.utils.StringHelperGwt;
 
@@ -29,6 +30,7 @@ public abstract class AbstractDialogBox extends DialogBox {
 	private final YougoLabelConstants constants = GWT.create(YougoLabelConstants.class);
 	final Button okButton;
 	final Button cancelButton;
+	final HorizontalPanel buttonContainer;
 
 	/** Count the number of modal box open. */
 	private static int nbDialogBox = 0;
@@ -136,7 +138,7 @@ public abstract class AbstractDialogBox extends DialogBox {
 			}
 		});
 
-		final HorizontalPanel buttonContainer = new HorizontalPanel();
+		buttonContainer = new HorizontalPanel();
 		buttonContainer.add(okButton);
 		buttonContainer.setWidth("305px");
 		dialogContent.add(buttonContainer);
@@ -147,16 +149,14 @@ public abstract class AbstractDialogBox extends DialogBox {
 			switch (level) {
 			case CONFIRM:
 				setText(constants.confirmTitle());
-				buttonContainer.add(cancelButton);
-				buttonContainer.setCellHorizontalAlignment(cancelButton, HasHorizontalAlignment.ALIGN_CENTER);
+				addCancelButton();
 				break;
 			case ERROR:
 				setText(constants.errorTitle());
 				break;
 			case WARNING:
 				setText(constants.warningTitle());
-				buttonContainer.add(cancelButton);
-				buttonContainer.setCellHorizontalAlignment(cancelButton, HasHorizontalAlignment.ALIGN_CENTER);
+				addCancelButton();
 				break;
 			default:
 				break;
@@ -164,6 +164,14 @@ public abstract class AbstractDialogBox extends DialogBox {
 		} else {
 			setText(title);
 		}
+	}
+
+	/**
+	 * 
+	 */
+	public void addCancelButton() {
+		buttonContainer.add(cancelButton);
+		buttonContainer.setCellHorizontalAlignment(cancelButton, HasHorizontalAlignment.ALIGN_CENTER);
 	}
 
 	/**
@@ -201,6 +209,9 @@ public abstract class AbstractDialogBox extends DialogBox {
 		nbDialogBox--;
 	}
 
+	/**
+	 * Allows to enable close on pressure of the escape button.
+	 */
 	public void enableCloseOnEscape() {
 		handlerRegistration = Event.addNativePreviewHandler(new NativePreviewHandler() {
 			@Override
@@ -218,4 +229,19 @@ public abstract class AbstractDialogBox extends DialogBox {
 	public static boolean isADialogBoxOpened() {
 		return nbDialogBox > 0;
 	};
+
+	public void setPopupCallback(final PopupCallback callback) {
+		okButton.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(final ClickEvent event) {
+				callback.onConfirm();
+			}
+		});
+		cancelButton.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(final ClickEvent event) {
+				callback.onCancel();
+			}
+		});
+	}
 }

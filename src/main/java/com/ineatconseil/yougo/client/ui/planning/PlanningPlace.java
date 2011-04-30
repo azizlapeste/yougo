@@ -4,34 +4,29 @@
 package com.ineatconseil.yougo.client.ui.planning;
 
 import com.google.gwt.place.shared.Place;
-import com.google.gwt.place.shared.PlaceTokenizer;
+import com.ineatconseil.yougo.client.cto.UserCTO;
 
 /**
  * @author aelamrani
  */
 public class PlanningPlace extends Place {
-	private final String userId;
+	private final UserCTO user;
 
-	public PlanningPlace(final String userId) {
-		this.userId = userId;
+	public PlanningPlace(final UserCTO user) {
+		this.user = user;
 	}
 
 	/**
 	 * @return
 	 */
 	public String getUserId() {
-		return this.userId;
+		return String.valueOf(this.user.getId());
 	}
 
-	public static class Tokenizer implements PlaceTokenizer<PlanningPlace> {
-		@Override
-		public String getToken(PlanningPlace place) {
-			return place.getUserId();
-		}
-
-		@Override
-		public PlanningPlace getPlace(String token) {
-			return new PlanningPlace(token);
-		}
+	/**
+	 * @return
+	 */
+	public UserCTO getUser() {
+		return user;
 	}
 }

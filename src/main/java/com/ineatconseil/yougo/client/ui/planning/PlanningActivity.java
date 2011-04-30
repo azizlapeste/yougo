@@ -4,6 +4,8 @@
 package com.ineatconseil.yougo.client.ui.planning;
 
 import com.google.gwt.activity.shared.AbstractActivity;
+import com.google.gwt.cell.client.ActionCell;
+import com.google.gwt.cell.client.ImageCell;
 import com.google.gwt.cell.client.TextCell;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JsArray;
@@ -20,6 +22,7 @@ import com.ineatconseil.yougo.client.i18n.YougoLabelConstants;
 import com.ineatconseil.yougo.client.i18n.YougoLabelMessages;
 import com.ineatconseil.yougo.client.service.UserClientService;
 import com.ineatconseil.yougo.client.ui.common.ClientFactory;
+import com.ineatconseil.yougo.client.ui.common.callback.PopupCallbackAdapter;
 import com.ineatconseil.yougo.client.ui.common.component.BasicPopup;
 import com.ineatconseil.yougo.client.ui.common.component.PopupChangePassword;
 import com.ineatconseil.yougo.client.ui.login.LoginPlace;
@@ -54,7 +57,7 @@ public class PlanningActivity extends AbstractActivity implements IPlanningView.
 		planningView = clientFactory.getPlanningView();
 		planningView.setPlanningTitleLabel(constants.planningTitleLabel());
 		planningView.setPresenter(this);
-		planningView.setHelloLabel(messages.helloLabel(planningPlace.getUserId()));
+		planningView.setHelloLabel(messages.helloLabel(planningPlace.getUser().getFullName()));
 		planningView.setChangePasswordLinkLabel(constants.changePasswordLabel());
 		planningView.setDisconnectLinkLabel(constants.disconnectLabel());
 
@@ -66,7 +69,15 @@ public class PlanningActivity extends AbstractActivity implements IPlanningView.
 		});
 
 		final PopupChangePassword popup = new PopupChangePassword("Ancien mot de passe : ", "Nouveau mot de passe : ",
-				"Confirmation nouveau mot de passe : ", "Changement mot de passe");
+				"Confirmation nouveau mot de passe : ", "Changement mot de passe", new PopupCallbackAdapter() {
+					/**
+					 * {@inheritDoc}
+					 */
+					@Override
+					public void onConfirm() {
+						BasicPopup.showConfirm("test");
+					}
+				});
 		planningView.addClickHandlerOnChangePasswordLink(new ClickHandler() {
 			@Override
 			public void onClick(final ClickEvent event) {
@@ -155,12 +166,41 @@ public class PlanningActivity extends AbstractActivity implements IPlanningView.
 		};
 		stateColumn.setSortable(true);
 
+		final Column<RequestCTO, RequestCTO> removeColumn = new Column<RequestCTO, RequestCTO>(
+				new ActionCell<RequestCTO>("img/trash.png", new ActionCell.Delegate<RequestCTO>() {
+					@Override
+					public void execute(final RequestCTO request) {
+						if (!"PENDING".equals(request.getStatus())) {
+							BasicPopup
+									.showError("Cette demande ne peut être supprimée car elle a été validé ou refusé");
+						} else {
+							BasicPopup
+									.showWarning("Etes vous sur de vouloir supprimer cette demande de congés allant du "
+											+ request.getFrom() + " au " + request.getTo() + " ?");
+						}
+					}
+				})) {
+			@Override
+			public RequestCTO getValue(final RequestCTO request) {
+				return request;
+			}
+		};
+
+		final Column<RequestCTO, String> editColumn = new Column<RequestCTO, String>(new ImageCell()) {
+			@Override
+			public String getValue(final RequestCTO request) {
+				return "img/edit.png";
+			}
+		};
+
 		requestsManagementView.addColumnOnTable(typeColumn, constants.typeTableTitle());
 		requestsManagementView.addColumnOnTable(fromColumn, constants.fromTableTitle());
 		requestsManagementView.addColumnOnTable(toColumn, constants.toTableTitle());
 		requestsManagementView.addColumnOnTable(observationColumn, constants.observationTableTitle());
 		requestsManagementView.addColumnOnTable(replyColumn, constants.replyTableTitle());
 		requestsManagementView.addColumnOnTable(stateColumn, constants.stateTableTitle());
+		requestsManagementView.addColumnOnTable(editColumn, "", "33px");
+		requestsManagementView.addColumnOnTable(removeColumn, "", "33px");
 	}
 
 	private void getRequests() {

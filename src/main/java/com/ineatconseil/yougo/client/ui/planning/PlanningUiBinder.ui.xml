@@ -6,8 +6,8 @@
 		<table cellspacing='0' cellpadding='0' class="panel">
 			<tr>
 				<td class="subTitle">
-					<g:InlineLabel ui:field="helloLabel" />
-					<g:Anchor ui:field="changePasswordLink" />
+					<g:InlineLabel ui:field="helloLabel" />&nbsp;&nbsp;&nbsp;
+					<g:Anchor ui:field="changePasswordLink" />&nbsp;&nbsp;&nbsp;
 					<g:Anchor ui:field="disconnectLink" />
 				</td>
 			</tr>

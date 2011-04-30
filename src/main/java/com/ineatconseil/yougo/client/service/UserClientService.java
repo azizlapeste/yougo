@@ -22,9 +22,16 @@ public class UserClientService extends AbstractClientService {
 	private static final String URL_SERVICE_LOGIN = CONTEXT_ROOT + "/users/validation";
 	private static final String URL_SERVICE_GET_REQUESTS = "/requests";
 	private static final String URL_SERVICE_GET_REQUEST_TYPE = CONTEXT_ROOT + "/request-types/";
+	private static final String URL_SERVICE_CONNECT = "/password/";
 
-	public void connect(final AsyncCallback<JsArrayString> callback) {
+	public void login(final AsyncCallback<JsArrayString> callback) {
 		final RequestBuilder builder = new RequestBuilder(RequestBuilder.POST, URL_SERVICE_LOGIN);
+		requestObject(builder, callback);
+	}
+
+	public void connect(final String userId, final AsyncCallback<JsArrayString> callback) {
+		final RequestBuilder builder = new RequestBuilder(RequestBuilder.POST, URL_SERVICE_GET_USERS + "/" + userId
+				+ URL_SERVICE_CONNECT);
 		requestObject(builder, callback);
 	}
 

@@ -15,11 +15,8 @@ import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PasswordTextBox;
 import com.google.gwt.user.client.ui.TextBox;
-import com.ineatconseil.yougo.client.ui.common.component.AbstractDialogBox.Level;
-import com.ineatconseil.yougo.client.ui.common.component.BasicPopup;
 import com.ineatconseil.yougo.client.ui.common.component.CustomButton;
 import com.ineatconseil.yougo.client.ui.common.utils.FocusManager;
-import com.ineatconseil.yougo.client.ui.planning.PlanningPlace;
 
 /**
  * @author aelamrani
@@ -143,14 +140,5 @@ public class LoginViewImpl extends Composite implements ILoginView {
 	@Override
 	public void setFocus() {
 		FocusManager.setWidgetFocused(loginText);
-	}
-
-	private void login() {
-		if ("toto".equals(loginText.getText()) && "toto".equals(passwordText.getText())) {
-			BasicPopup.show(Level.CONFIRM, null, "Login successful", true);
-			presenter.goTo(new PlanningPlace("PlanningPlace"));
-		} else {
-			BasicPopup.showError("Identifiant ou mot de passe incorrect...!");
-		}
 	}
 }
