@@ -16,4 +16,13 @@ public interface YougoLabelMessages extends Messages {
 	 * @return the hello label followed by the name
 	 */
 	String helloLabel(String name);
+
+	/**
+	 * @param date
+	 *            the date to display
+	 * @param hour
+	 *            the hour to display
+	 * @return the date label
+	 */
+	String dateLabel(String date, String hour);
 }

@@ -5,16 +5,24 @@
 		<g:Label addStyleNames="title" ui:field="planningTitleLabel" />
 		<table cellspacing='0' cellpadding='0' class="panel">
 			<tr>
+				<td class="subTitle" style="text-align: left;">
+					<g:InlineLabel ui:field="dateLabel" />
+				</td>
 				<td class="subTitle">
-					<g:InlineLabel ui:field="helloLabel" />&nbsp;&nbsp;&nbsp;
-					<g:Anchor ui:field="changePasswordLink" />&nbsp;&nbsp;&nbsp;
+					<g:InlineLabel ui:field="helloLabel" />&nbsp;&nbsp;&nbsp;&nbsp;
+					<g:Anchor ui:field="changePasswordLink" />&nbsp;&nbsp;&nbsp;&nbsp;
 					<g:Anchor ui:field="disconnectLink" />
 				</td>
 			</tr>
 			<tr>
-				<td valign='top'>
+				<td colspan="2">
 					<g:DecoratedTabPanel ui:field='planningTabPanel'
 						animationEnabled='true' />
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2">
+					<g:Button ui:field="newRequestButton" />
 				</td>
 			</tr>
 		</table>

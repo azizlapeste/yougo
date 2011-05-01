@@ -9,6 +9,7 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiTemplate;
 import com.google.gwt.user.client.ui.Anchor;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -32,18 +33,18 @@ public class PlanningViewImpl extends Composite implements IPlanningView {
 
 	@UiField
 	Label planningTitleLabel;
-
 	@UiField
 	TabPanel planningTabPanel;
-
 	@UiField
 	Label helloLabel;
-
 	@UiField
 	Anchor changePasswordLink;
-
 	@UiField
 	Anchor disconnectLink;
+	@UiField
+	Label dateLabel;
+	@UiField
+	Button newRequestButton;
 
 	private Presenter presenter;
 
@@ -77,6 +78,14 @@ public class PlanningViewImpl extends Composite implements IPlanningView {
 	@Override
 	public void setHelloLabel(final String label) {
 		helloLabel.setText(label);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void setDateLabel(final String label) {
+		dateLabel.setText(label);
 	}
 
 	/**
@@ -117,5 +126,21 @@ public class PlanningViewImpl extends Composite implements IPlanningView {
 	@Override
 	public void setPresenter(final Presenter presenter) {
 		this.presenter = presenter;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void setNewRequestButtonLabel(final String label) {
+		newRequestButton.setText(label);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void addClickHandlerHandlerOnAddRequestButton(final ClickHandler handler) {
+		newRequestButton.addClickHandler(handler);
 	}
 }

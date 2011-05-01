@@ -3,16 +3,20 @@
  */
 package com.ineatconseil.yougo.client.ui.planning;
 
+import java.util.Date;
+
 import com.google.gwt.activity.shared.AbstractActivity;
-import com.google.gwt.cell.client.ActionCell;
-import com.google.gwt.cell.client.ImageCell;
+import com.google.gwt.cell.client.Cell.Context;
 import com.google.gwt.cell.client.TextCell;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JsArray;
+import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.place.shared.Place;
+import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
@@ -23,8 +27,12 @@ import com.ineatconseil.yougo.client.i18n.YougoLabelMessages;
 import com.ineatconseil.yougo.client.service.UserClientService;
 import com.ineatconseil.yougo.client.ui.common.ClientFactory;
 import com.ineatconseil.yougo.client.ui.common.callback.PopupCallbackAdapter;
-import com.ineatconseil.yougo.client.ui.common.component.BasicPopup;
-import com.ineatconseil.yougo.client.ui.common.component.PopupChangePassword;
+import com.ineatconseil.yougo.client.ui.common.cell.ImageActionCell;
+import com.ineatconseil.yougo.client.ui.common.constants.YougoConstants;
+import com.ineatconseil.yougo.client.ui.common.popup.BasicPopup;
+import com.ineatconseil.yougo.client.ui.common.popup.PopupChangePassword;
+import com.ineatconseil.yougo.client.ui.common.popup.PopupNewRequest;
+import com.ineatconseil.yougo.client.ui.common.utils.DateHelperGwt;
 import com.ineatconseil.yougo.client.ui.login.LoginPlace;
 import com.ineatconseil.yougo.client.ui.requestsManagement.IRequestsManagementView;
 
@@ -60,6 +68,9 @@ public class PlanningActivity extends AbstractActivity implements IPlanningView.
 		planningView.setHelloLabel(messages.helloLabel(planningPlace.getUser().getFullName()));
 		planningView.setChangePasswordLinkLabel(constants.changePasswordLabel());
 		planningView.setDisconnectLinkLabel(constants.disconnectLabel());
+		final Date now = new Date();
+		planningView.setDateLabel(messages.dateLabel(DateHelperGwt.getDateFormat().format(now), DateHelperGwt
+				.getHourFormat().format(now)));
 
 		planningView.addClickHandlerOnDisconnectLink(new ClickHandler() {
 			@Override
@@ -68,20 +79,18 @@ public class PlanningActivity extends AbstractActivity implements IPlanningView.
 			}
 		});
 
-		final PopupChangePassword popup = new PopupChangePassword("Ancien mot de passe : ", "Nouveau mot de passe : ",
-				"Confirmation nouveau mot de passe : ", "Changement mot de passe", new PopupCallbackAdapter() {
-					/**
-					 * {@inheritDoc}
-					 */
+		final PopupChangePassword popupChangePassword = new PopupChangePassword("Ancien mot de passe : ",
+				"Nouveau mot de passe : ", "Confirmation nouveau mot de passe : ", "Changement mot de passe",
+				new PopupCallbackAdapter() {
 					@Override
 					public void onConfirm() {
-						BasicPopup.showConfirm("test");
+						BasicPopup.showConfirm("OK");
 					}
 				});
 		planningView.addClickHandlerOnChangePasswordLink(new ClickHandler() {
 			@Override
 			public void onClick(final ClickEvent event) {
-				popup.show();
+				popupChangePassword.show();
 			}
 		});
 
@@ -91,6 +100,20 @@ public class PlanningActivity extends AbstractActivity implements IPlanningView.
 		containerWidget.setWidget(planningView.asWidget());
 		getRequestTypes();
 		addColumnsOnRequestsManagementTable();
+
+		planningView.setNewRequestButtonLabel("Nouvelle demande");
+		final PopupNewRequest popupNewRequest = new PopupNewRequest("Date de début : ", "Date de fin : ",
+				"Observations : ", "Type de congé : ", "Nouvelle demande de congé", new PopupCallbackAdapter() {
+					@Override
+					public void onConfirm() {
+					}
+				});
+		planningView.addClickHandlerHandlerOnAddRequestButton(new ClickHandler() {
+			@Override
+			public void onClick(final ClickEvent event) {
+				popupNewRequest.show();
+			}
+		});
 	}
 
 	/**
@@ -167,29 +190,64 @@ public class PlanningActivity extends AbstractActivity implements IPlanningView.
 		stateColumn.setSortable(true);
 
 		final Column<RequestCTO, RequestCTO> removeColumn = new Column<RequestCTO, RequestCTO>(
-				new ActionCell<RequestCTO>("img/trash.png", new ActionCell.Delegate<RequestCTO>() {
-					@Override
-					public void execute(final RequestCTO request) {
-						if (!"PENDING".equals(request.getStatus())) {
-							BasicPopup
-									.showError("Cette demande ne peut être supprimée car elle a été validé ou refusé");
-						} else {
-							BasicPopup
-									.showWarning("Etes vous sur de vouloir supprimer cette demande de congés allant du "
-											+ request.getFrom() + " au " + request.getTo() + " ?");
-						}
-					}
-				})) {
+				new ImageActionCell<RequestCTO>(YougoConstants.ImagePath.TRASH_ICON,
+						new ImageActionCell.Delegate<RequestCTO>() {
+							@Override
+							public void execute(final RequestCTO request) {
+								BasicPopup
+										.showWarning("Etes vous sur de vouloir supprimer cette demande de congés allant du "
+												+ request.getFrom() + " au " + request.getTo() + " ?");
+							}
+						})) {
 			@Override
 			public RequestCTO getValue(final RequestCTO request) {
 				return request;
 			}
+
+			@Override
+			public void render(Context context, RequestCTO request, SafeHtmlBuilder sb) {
+				if (YougoConstants.RequestState.PENDING.equals(request.getStatus())) {
+					super.render(context, request, sb);
+				}
+			};
+
+			@Override
+			public void onBrowserEvent(final Context context, final Element elem, final RequestCTO request,
+					final NativeEvent event) {
+				if (YougoConstants.RequestState.PENDING.equals(request.getStatus())) {
+					super.onBrowserEvent(context, elem, request, event);
+				}
+			}
 		};
 
-		final Column<RequestCTO, String> editColumn = new Column<RequestCTO, String>(new ImageCell()) {
+		final Column<RequestCTO, RequestCTO> editColumn = new Column<RequestCTO, RequestCTO>(
+				new ImageActionCell<RequestCTO>(YougoConstants.ImagePath.EDIT_ICON,
+						new ImageActionCell.Delegate<RequestCTO>() {
+							@Override
+							public void execute(final RequestCTO request) {
+								BasicPopup
+										.showWarning("Etes vous sur de vouloir modifier cette demande de congés allant du "
+												+ request.getFrom() + " au " + request.getTo() + " ?");
+							}
+						})) {
 			@Override
-			public String getValue(final RequestCTO request) {
-				return "img/edit.png";
+			public RequestCTO getValue(final RequestCTO request) {
+				return request;
+			}
+
+			@Override
+			public void render(final Context context, final RequestCTO request, final SafeHtmlBuilder sb) {
+				if (YougoConstants.RequestState.PENDING.equals(request.getStatus())) {
+					super.render(context, request, sb);
+				}
+			};
+
+			@Override
+			public void onBrowserEvent(final Context context, final Element elem, final RequestCTO request,
+					final NativeEvent event) {
+				if (YougoConstants.RequestState.PENDING.equals(request.getStatus())) {
+					super.onBrowserEvent(context, elem, request, event);
+				}
 			}
 		};
 

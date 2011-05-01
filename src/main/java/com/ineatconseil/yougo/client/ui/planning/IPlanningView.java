@@ -31,6 +31,12 @@ public interface IPlanningView extends IsWidget {
 
 	void addClickHandlerOnChangePasswordLink(ClickHandler handler);
 
+	void setDateLabel(String label);
+
+	void setNewRequestButtonLabel(String label);
+
+	void addClickHandlerHandlerOnAddRequestButton(ClickHandler handler);
+
 	public interface Presenter {
 		void goTo(Place place);
 	}

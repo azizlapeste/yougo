@@ -13,11 +13,4 @@
 
 	<import resource="classpath:json/layer-json.xml"/>
 	
-	<!--  import i18n controller -->
-<!--	<import resource="classpath:/META-INF/springMVC-config/mainController-servlet.xml"/>-->
-
-<!--	<mvc:interceptors>-->
-<!--	    <bean class="com.ineatconseil.yougo.server.interceptors.UserInformationInterceptor" />-->
-<!--	</mvc:interceptors>-->
-	
 </beans>

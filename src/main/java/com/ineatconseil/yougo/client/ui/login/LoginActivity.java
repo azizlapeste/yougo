@@ -24,8 +24,7 @@ import com.ineatconseil.yougo.client.cto.UserCTO;
 import com.ineatconseil.yougo.client.i18n.YougoLabelConstants;
 import com.ineatconseil.yougo.client.service.UserClientService;
 import com.ineatconseil.yougo.client.ui.common.ClientFactory;
-import com.ineatconseil.yougo.client.ui.common.component.AbstractDialogBox.Level;
-import com.ineatconseil.yougo.client.ui.common.component.BasicPopup;
+import com.ineatconseil.yougo.client.ui.common.popup.BasicPopup;
 import com.ineatconseil.yougo.client.ui.planning.PlanningPlace;
 
 /**
@@ -102,8 +101,8 @@ public class LoginActivity extends AbstractActivity implements ILoginView.Presen
 					if ((loginView.getLogin().equals(result.get(i).getEmail()) && loginView.getPassword().equals(
 							"password"))
 							|| (loginView.getLogin().equals("toto") && loginView.getPassword().equals("toto"))) {
-						BasicPopup.show(Level.CONFIRM, "Bienvenue " + result.get(i).getFullName(),
-								"Vous êtes maintenant connecté sur YouGO", true);
+						// BasicPopup.show(Level.CONFIRM, "Bienvenue " + result.get(i).getFullName(),
+						// "Vous êtes maintenant connecté sur YouGO", true);
 						goTo(new PlanningPlace(result.get(i)));
 						bNotFound = false;
 						break;

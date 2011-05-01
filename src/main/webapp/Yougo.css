@@ -36,6 +36,8 @@
 .subTitle {
 	font-weight: bold;
 	font-size: 14px;
+/* 	text-align: right; */
+	padding: 0 10px 20px 0;
 }
 
 /** Style for the popup. */
@@ -69,6 +71,14 @@
 	background: url(img/confirm.png) no-repeat;
 }
 
+.dialogBox .password {
+	background: url(img/password.png) no-repeat;
+}
+
+.dialogBox .add {
+	background: url(img/add.png) no-repeat;
+}
+
 /** Login. */
 .loginArea {
 	background: url(img/login_area.jpg) no-repeat;
@@ -96,7 +106,7 @@
 
 /** Most GWT widgets already have a style name defined */
 .gwt-DialogBox {
-	width: 453px;
+	max-width: 700px;
 }
 
 .gwt-Anchor {

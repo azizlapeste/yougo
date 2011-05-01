@@ -1,4 +1,4 @@
-package com.ineatconseil.yougo.client.ui.common.component;
+package com.ineatconseil.yougo.client.ui.common.popup;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.Unit;
@@ -18,6 +18,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.ineatconseil.yougo.client.i18n.YougoLabelConstants;
 import com.ineatconseil.yougo.client.ui.common.callback.PopupCallback;
+import com.ineatconseil.yougo.client.ui.common.component.CustomButton;
 import com.ineatconseil.yougo.client.ui.common.utils.FocusManager;
 import com.ineatconseil.yougo.client.ui.common.utils.StringHelperGwt;
 
@@ -47,7 +48,15 @@ public abstract class AbstractDialogBox extends DialogBox {
 		/**
 		 * The confirm type is used when a confirmation is needed to continue.
 		 */
-		CONFIRM("confirm");
+		CONFIRM("confirm"),
+		/**
+		 * The password type is used for the change password popup.
+		 */
+		PASSWORD("password"),
+		/**
+		 * The add type is used for the add popups.
+		 */
+		ADD("add");
 
 		private String styleName;
 
@@ -212,7 +221,7 @@ public abstract class AbstractDialogBox extends DialogBox {
 	/**
 	 * Allows to enable close on pressure of the escape button.
 	 */
-	public void enableCloseOnEscape() {
+	private void enableCloseOnEscape() {
 		handlerRegistration = Event.addNativePreviewHandler(new NativePreviewHandler() {
 			@Override
 			public void onPreviewNativeEvent(NativePreviewEvent event) {
@@ -226,10 +235,14 @@ public abstract class AbstractDialogBox extends DialogBox {
 	/**
 	 * @return true if a dialog box is opened.
 	 */
-	public static boolean isADialogBoxOpened() {
+	private static boolean isADialogBoxOpened() {
 		return nbDialogBox > 0;
 	};
 
+	/**
+	 * @param callback
+	 *            the callback to set
+	 */
 	public void setPopupCallback(final PopupCallback callback) {
 		okButton.addClickHandler(new ClickHandler() {
 			@Override

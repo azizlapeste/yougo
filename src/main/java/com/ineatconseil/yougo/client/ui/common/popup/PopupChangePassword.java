@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.ineatconseil.yougo.client.ui.common.component;
+package com.ineatconseil.yougo.client.ui.common.popup;
 
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -32,7 +32,8 @@ public class PopupChangePassword extends AbstractDialogBox {
 	 */
 	public PopupChangePassword(final String oldPasswordMessage, final String newPasswordMessage,
 			final String confirmNewPasswordMessage, final String title, final PopupCallback callback) {
-		super(Level.CONFIRM, constructContent(oldPasswordMessage, newPasswordMessage, confirmNewPasswordMessage), title);
+		super(Level.PASSWORD, constructContent(oldPasswordMessage, newPasswordMessage, confirmNewPasswordMessage),
+				title, true);
 		setPopupCallback(callback);
 		addCancelButton();
 	}
@@ -68,5 +69,4 @@ public class PopupChangePassword extends AbstractDialogBox {
 		super.show();
 		oldPasswordTextBox.setFocus(true);
 	}
-
 }

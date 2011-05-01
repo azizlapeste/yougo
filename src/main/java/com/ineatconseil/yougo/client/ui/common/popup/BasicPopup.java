@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.ineatconseil.yougo.client.ui.common.component;
+package com.ineatconseil.yougo.client.ui.common.popup;
 
 import com.google.gwt.user.client.ui.HTML;
 

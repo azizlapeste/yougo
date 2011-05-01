@@ -6,11 +6,7 @@
 	<bean name="json" class="org.springframework.web.servlet.view.json.MappingJacksonJsonView">
 		<property name="prefixJson" value="true"/>
 		<property name="objectMapper">
-			<bean class="org.codehaus.jackson.map.ObjectMapper">
-				<constructor-arg>
-					<bean class="com.ineatconseil.yougo.server.mapper.GwtJsonSerializerFactory"/>
-				</constructor-arg>
-			</bean>
+			<bean class="org.codehaus.jackson.map.ObjectMapper"/>
 		</property>
 	</bean>
 	
